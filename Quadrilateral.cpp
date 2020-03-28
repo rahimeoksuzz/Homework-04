@@ -24,7 +24,7 @@ Quadrilateral::Quadrilateral(const Point& a = { 0,0 }, const Point& c = { -1,-1 
 	pts[3].y = a.y;
 
 	this->color = color;
-    isValid();
+	isValid();
 }
 
 Quadrilateral::Quadrilateral(const Point& a, double width, double height, const Color& color = Color::GREEN)
@@ -104,17 +104,17 @@ double Quadrilateral::getPerimeter() const noexcept
 	double perimeter_2 = a.distanceTo(d);
 	double perimeter_3 = b.distanceTo(d);
 	double perimeter_4 = c.distanceTo(d);
-    double perimeter = perimeter_1 + perimeter_2 + perimeter_3 + perimeter_4;
+	double perimeter = perimeter_1 + perimeter_2 + perimeter_3 + perimeter_4;
 	return perimeter;
 }
 
 bool Quadrilateral::isValid() const {
-	
+
 	if ((c.y >= d.y || b.y >= a.y) && (a.x - b.x == 0))
 	{
 		throw invalid_argument("DORTGEN DEGILDIR!!!");
 	}
-	else
+	else 
 	{
 		double slope = (a.y - b.y) / (a.x - b.x);
 		if (c.x <= ((c.y - a.y) / (slope + a.x)) && d.x <= ((d.y - a.y) / (slope + a.x)))
@@ -122,8 +122,20 @@ bool Quadrilateral::isValid() const {
 			throw invalid_argument("DORTGEN DEGILDIR!!!");
 		}
 	}
-	
-	return false;
+	if (((a.x == b.x) && (a.x == c.x)) && ((a.x == b.x) && (a.x == d.x)))
+	{
+		throw invalid_argument("X BİRBİRİNİN AYNISI");
+	}
+	else if (((a.x == d.x) && (a.x == c.x)) && ((d.x == b.x) && (b.x == c.x))) {
+		throw invalid_argument("X BİRBİRİNİN AYNISI");
+	}
+	else if (((a.y == b.y) && (a.y == c.y)) && ((a.y == b.y) && (a.y == d.y))) {
+		throw invalid_argument("Y BİRBİRİNİN AYNISI");
+	}
+	else if (((a.y == d.y) && (a.y == c.y)) && ((d.y == b.y) && (b.y == c.y))) {
+		throw invalid_argument("Y BİRBİRİNİN AYNISI");
+	}
+    return true;
 }
 
 bool Quadrilateral::setA(const Point& pt)
@@ -169,11 +181,10 @@ bool Quadrilateral::setD(const Point& pt)
 
 void Quadrilateral::printInfo() const noexcept
 {
-	
-	cout << endl << "Rectangle" << endl << "Number of points: " << NUMBER_OF_CORNERS << endl ;
+
+	cout << endl << "Rectangle" << endl << "Number of points: " << NUMBER_OF_CORNERS << endl;
 	cout << "Points: " << "( " << a.x << ", " << a.y << " ),( " << b.x << ", " << b.y << " ),( " << c.x << "," << c.y << " ),( " << d.x << "," << d.y << " )" << endl;
 	cout << "Priperhal: " << getPerimeter() << endl;
 	cout << "Color: " << colorToStringMap.at(color);
-	return 0.0;
-	
+
 }
