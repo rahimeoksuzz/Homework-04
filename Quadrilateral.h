@@ -59,7 +59,7 @@ public:
 	bool setC(const Point & pt); 
 	bool setD(const Point & pt); 
 
-	double printInfo() const noexcept;
+	void printInfo() const noexcept;
 	// Ekrana şunu basar:
 	/* Rectangle
 	   Number of points: 4
