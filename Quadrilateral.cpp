@@ -1,15 +1,21 @@
-#include "Quadrilateral.h"
-#include <exception>
+#include <array>
+#include <vector>
+#include <map>
 #include <stdexcept>
+#include "Point.h"
+#include "Triangle.h"
 #include <iostream>
+using namespace std;
 
-const map<Quadrilateral::Color, string> Quadrilateral::colorToStringMap = { {Quadrilateral::Color::RED, "Red"},
-{Quadrilateral::Color::BLUE, "Blue"},
-{Quadrilateral::Color::WHITE, "White"},
-{Quadrilateral::Color::BLACK, "Black"},
-{Quadrilateral::Color::GREEN, "Green"}
+const map<Triangle::Color, string> Triangle::colorToStringMap = { {Triangle::Color::RED, "Red"},
+{Triangle::Color::BLUE, "Blue"},
+{Triangle::Color::WHITE, "White"},
+{Triangle::Color::BLACK, "Black"},
+{Triangle::Color::GREEN, "Green"},
+{Triangle::Color::PINK, "Pink"}
 };
-Quadrilateral::Quadrilateral(const Point& a = { 0,0 }, const Point& c = { -1,-1 }, const Color& color = Quadrilateral::Color::GREEN)
+
+Triangle::Triangle(const Point& a = { 1, 0 }, const Point& b = { 0, 1 }, const Point& c = { 2, 1 }, const Color & color = Color::RED)
 {
 	pts[0].x = a.x;
 	pts[0].y = a.y;
@@ -20,171 +26,113 @@ Quadrilateral::Quadrilateral(const Point& a = { 0,0 }, const Point& c = { -1,-1 
 	pts[2].x = c.x;
 	pts[2].y = c.y;
 
-	pts[3].x = c.x;
-	pts[3].y = a.y;
-
 	this->color = color;
+
 	isValid();
 }
 
-Quadrilateral::Quadrilateral(const Point& a, double width, double height, const Color& color = Color::GREEN)
+Triangle::Triangle(const vector<Point>& pts, const Color& color)
+{
+	pts[0].x = a.x;
+	pts[0].y = a.y;
+	
+	pts[1].x = a.x;
+	pts[1].y = c.y;
+
+	pts[2].x = c.x;
+	pts[2].y = c.y;
+	
+	this->color = color;
+
+	isValid();
+	}
+
+
+Triangle::Triangle(const array<Point, NUMBER_OF_CORNERS>& pts, const Color& color)
 {
 	pts[0].x = a.x;
 	pts[0].y = a.y;
 
 	pts[1].x = a.x;
-	pts[1].y = a.y + height;
+	pts[1].y = c.y;
 
-	pts[2].x = a.x + width;
-	pts[2].y = pts[1].y;
-
-	pts[3].x = pts[2].x;
-	pts[3].y = a.y;
+	pts[2].x = c.x;
+	pts[2].y = c.y;
 
 	this->color = color;
 
 	isValid();
 }
-Quadrilateral::Quadrilateral(const Point& a, const Point& b, const Point& c, const Point& d, const Color& color)
-{
-	setA(a);
-	setB(b);
-	setC(c);
-	setD(d);
 
-	this->color = color;
-
-	isValid();
-}
-Quadrilateral::Quadrilateral(const array<Point, NUMBER_OF_CORNERS>& pts, const Color& color)
-{
-	setA(pts[0]);
-	setB(pts[1]);
-	setC(pts[2]);
-	setD(pts[3]);
-
-	this->color = color;
-
-	isValid();
-}
-Point Quadrilateral::getA() const noexcept
+Point Triangle::getA() const noexcept
 {
 	return a;
 }
 
-Point Quadrilateral::getB() const noexcept
+Point Triangle::getB() const noexcept
 {
 	return b;
 }
 
-Point Quadrilateral::getC() const noexcept
+Point Triangle::getC() const noexcept
 {
 	return c;
 }
 
-Point Quadrilateral::getD() const noexcept
-{
-	return d;
-}
-
-Quadrilateral::Color Quadrilateral::getColor() const noexcept
+Triangle::Color Triangle::getColor() const noexcept
 {
 	return color;
 }
-
-
-string Quadrilateral::getColorAsString() const noexcept
-{
+string Triangle::getColorAsString() const noexcept{
 	return colorToStringMap.at(color);
 }
 
-double Quadrilateral::getPerimeter() const noexcept
+double Triangle::getPerimeter() const noexcept
 {
 	double perimeter_1 = a.distanceTo(b);
-	double perimeter_2 = a.distanceTo(d);
-	double perimeter_3 = b.distanceTo(d);
-	double perimeter_4 = c.distanceTo(d);
-	double perimeter = perimeter_1 + perimeter_2 + perimeter_3 + perimeter_4;
+	double perimeter_2 = a.distanceTo(c);
+	double perimeter_3 = b.distanceTo(c);
+    double perimeter = perimeter_1 + perimeter_2 + perimeter_3;
 	return perimeter;
 }
-
-bool Quadrilateral::isValid() const {
-
-	if ((c.y >= d.y || b.y >= a.y) && (a.x - b.x == 0))
-	{
-		throw invalid_argument("DORTGEN DEGILDIR!!!");
-	}
-	else 
-	{
-		double slope = (a.y - b.y) / (a.x - b.x);
-		if (c.x <= ((c.y - a.y) / (slope + a.x)) && d.x <= ((d.y - a.y) / (slope + a.x)))
-		{
-			throw invalid_argument("DORTGEN DEGILDIR!!!");
-		}
-	}
-	if (((a.x == b.x) && (a.x == c.x)) && ((a.x == b.x) && (a.x == d.x)))
-	{
-		throw invalid_argument("X BİRBİRİNİN AYNISI");
-	}
-	else if (((a.x == d.x) && (a.x == c.x)) && ((d.x == b.x) && (b.x == c.x))) {
-		throw invalid_argument("X BİRBİRİNİN AYNISI");
-	}
-	else if (((a.y == b.y) && (a.y == c.y)) && ((a.y == b.y) && (a.y == d.y))) {
-		throw invalid_argument("Y BİRBİRİNİN AYNISI");
-	}
-	else if (((a.y == d.y) && (a.y == c.y)) && ((d.y == b.y) && (b.y == c.y))) {
-		throw invalid_argument("Y BİRBİRİNİN AYNISI");
-	}
-    return true;
+//set fonksiyonları tekrar kontrol edilicek
+bool Triangle::setA(const Point & pt){
+      a.x = pt.x;
+	  a.y = pt.y;
 }
 
-bool Quadrilateral::setA(const Point& pt)
-{
-	a.x = pt.x;
-	a.y = pt.y;
-
-	isValid();
-
-	return false;
-}
-
-bool Quadrilateral::setB(const Point& pt)
-{
+bool Triangle::setB(const Point & pt){
 	b.x = pt.x;
 	b.y = pt.y;
-
-	isValid();
-
-	return false;
+	
 }
 
-bool Quadrilateral::setC(const Point& pt)
-{
+bool Triangle::setC(const Point & pt){
 	c.x = pt.x;
 	c.y = pt.y;
-
-	isValid();
-
-	return false;
 }
-
-bool Quadrilateral::setD(const Point& pt)
+bool Triangle::isValid() const
 {
-	d.x = pt.x;
-	d.y = pt.y;
+	double x = a.distanceTo(b);
+	double y = a.distanceTo(c);
+	double z = b.distanceTo(c);
 
-	isValid();
+	if ( (x > y+z && x < abs(y-z)) || (y > x+z || y < abs(x-z)) || (z > x+y || z < abs(x-y)))
+	{
+		throw invalid_argument("UCGEN DEGILDIR!!!");
+	}
 
-	return false;
+	if ((a.x == b.x && a.y == b.y) || (a.x == c.x && a.y == c.y) || (b.x == c.x && b.y == c.y))
+	{
+		throw invalid_argument("UCGEN DEGILDIR!!!");
+	}
+	return true;
 }
-
-
-void Quadrilateral::printInfo() const noexcept
+double Triangle::printInfo() const noexcept
 {
 
-	cout << endl << "Rectangle" << endl << "Number of points: " << NUMBER_OF_CORNERS << endl;
-	cout << "Points: " << "( " << a.x << ", " << a.y << " ),( " << b.x << ", " << b.y << " ),( " << c.x << "," << c.y << " ),( " << d.x << "," << d.y << " )" << endl;
+	cout << endl << "Triangle" << endl << "Number of points: " << NUMBER_OF_CORNERS << endl;
+	cout << "Points: " << "( " << a.x << ", " << a.y << " ),( " << b.x << ", " << b.y << " ),( " << c.x << "," << c.y  << endl;
 	cout << "Priperhal: " << getPerimeter() << endl;
-	cout << "Color: " << colorToStringMap.at(color);
-
+	cout << "Color: " <<colorToStringMap.at(color) << endl;
 }
