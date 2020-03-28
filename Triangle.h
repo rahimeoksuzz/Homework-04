@@ -1,7 +1,7 @@
 #include <array>
 #include <vector>
-
 #include "Point.h"
+
 using namespace std;
 
 class Triangle
@@ -9,7 +9,7 @@ class Triangle
 public:
 	constexpr static int NUMBER_OF_CORNERS{ 3 };
 	enum class Color { PINK, RED, BLUE, WHITE, BLACK, GREEN };
-
+    
 	// Constructor
 	Triangle(const Point & a = { 1, 0 }, const Point & b = { 0, 1 }, const Point & c = { 2, 1 }, const Color & color = Color::RED);
 	Triangle(const vector<Point> & pts, const Color & color = Color::RED);
