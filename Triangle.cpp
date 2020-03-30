@@ -92,24 +92,26 @@ double Triangle::getPerimeter() const noexcept
 	double perimeter_1 = a.distanceTo(b);
 	double perimeter_2 = a.distanceTo(c);
 	double perimeter_3 = b.distanceTo(c);
-    double perimeter = perimeter_1 + perimeter_2 + perimeter_3;
+	double perimeter = perimeter_1 + perimeter_2 + perimeter_3;
 	return perimeter;
 }
 //set fonksiyonları tekrar kontrol edilicek
 bool Triangle::setA(const Point & pt){
-      a.x = pt.x;
-	  a.y = pt.y;
+	a.x = pt.x;
+	a.y = pt.y;
+	return true;
 }
 
 bool Triangle::setB(const Point & pt){
 	b.x = pt.x;
 	b.y = pt.y;
-	
+	return true;
 }
 
 bool Triangle::setC(const Point & pt){
 	c.x = pt.x;
 	c.y = pt.y;
+	return true;
 }
 bool Triangle::isValid() const
 {
@@ -134,5 +136,5 @@ double Triangle::printInfo() const noexcept
 	cout << endl << "Triangle" << endl << "Number of points: " << NUMBER_OF_CORNERS << endl;
 	cout << "Points: " << "( " << a.x << ", " << a.y << " ),( " << b.x << ", " << b.y << " ),( " << c.x << "," << c.y  << endl;
 	cout << "Priperhal: " << getPerimeter() << endl;
-	cout << "Color: " <<colorToStringMap.at(color) << endl;
+	cout << "Color: " << getColorAsString() << endl;
 }
