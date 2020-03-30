@@ -137,4 +137,5 @@ double Triangle::printInfo() const noexcept
 	cout << "Points: " << "( " << a.x << ", " << a.y << " ),( " << b.x << ", " << b.y << " ),( " << c.x << "," << c.y  << endl;
 	cout << "Priperhal: " << getPerimeter() << endl;
 	cout << "Color: " << getColorAsString() << endl;
+	return 0.0;
 }
