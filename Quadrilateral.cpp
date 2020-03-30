@@ -145,7 +145,7 @@ bool Quadrilateral::setA(const Point& pt)
 
 	isValid();
 
-	return false;
+	return true;
 }
 
 bool Quadrilateral::setB(const Point& pt)
@@ -155,7 +155,7 @@ bool Quadrilateral::setB(const Point& pt)
 
 	isValid();
 
-	return false;
+	return true;
 }
 
 bool Quadrilateral::setC(const Point& pt)
@@ -165,7 +165,7 @@ bool Quadrilateral::setC(const Point& pt)
 
 	isValid();
 
-	return false;
+	return true;
 }
 
 bool Quadrilateral::setD(const Point& pt)
@@ -175,7 +175,7 @@ bool Quadrilateral::setD(const Point& pt)
 
 	isValid();
 
-	return false;
+	return true;
 }
 
 
